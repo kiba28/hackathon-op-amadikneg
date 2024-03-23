@@ -1,39 +1,30 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import {Counter} from "../src/Counter.sol";
+import {AnticipayChain} from "../src/AnticipayChain.sol";
 import {Utils} from "./Utils.t.sol";
 
 contract BaseSetup is Utils {
-    Counter counter;
+    AnticipayChain anticipay;
 
     address[] _users;
     address controller;
-    address alice;
-    address bob;
-    address eve;
-    address trent;
-    address zero;
+    address deliveryCompany;
+    address found;
 
     function setUp() public virtual {
-        _users = createUsers(5);
+        _users = createUsers(3);
 
         controller = _users[0];
-        alice = _users[1];
-        bob = _users[2];
-        eve = _users[3];
-        trent = _users[4];
-        zero = address(0x0);
+        deliveryCompany = _users[1];
+        found = _users[2];
 
         vm.label(controller, "CONTROLLER");
-        vm.label(alice, "ALICE");
-        vm.label(bob, "BOB");
-        vm.label(eve, "EVE");
-        vm.label(trent, "TRENT");
-        vm.label(zero, "ZERO");
+        vm.label(deliveryCompany, "DELIVERYCOMPANY");
+        vm.label(found, "FOUND");
 
         vm.startPrank(controller);
-        counter = new Counter();
+        anticipay = new AnticipayChain(deliveryCompany, found, 1);
         vm.stopPrank();
     }
 
